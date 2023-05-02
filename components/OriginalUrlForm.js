@@ -18,6 +18,7 @@ async function createShortUrl(originalUrl) {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
+      withCredentials: true,
       body: JSON.stringify({ originalUrl }),
     })
 
