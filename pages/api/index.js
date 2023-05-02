@@ -21,6 +21,8 @@ const connectStore = new pgSession({
 
 const getSession = nextSession({
   store: promisifyStore(connectStore),
+  saveUninitialized: true,
+  resave: true,
 })
 
 export default async function handler(req, res) {
