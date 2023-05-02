@@ -32,8 +32,12 @@ export default async function handler(req, res) {
     const { error, value } = apiUrlSchema.validate(req.body)
 
     const session = await getSession(req, res)
+    //session.views = session.views ? session.views + 1 : 1
 
-    res.setHeader('Set-Cookie', req.headers.cookie)
+    const cookie = req.headers.cookie
+    console.log(cookie)
+
+    res.setHeader('Set-Cookie', cookie)
 
     const forwarded = req.headers['x-forwarded-for']
     const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress
@@ -52,7 +56,7 @@ export default async function handler(req, res) {
     }
 
     const referer = req.headers.referer || 'undefined'
-    
+
     try {
       if (error) {
         res.status(400).json({ error: 'Field must be filled out' })
@@ -77,7 +81,7 @@ export default async function handler(req, res) {
             data: {
               browserName: ua.browser,
               countryName: countryName,
-              cookie: req.headers.cookie,
+              cookie: cookie,
               referer: referer,
               url: {
                 connect: {
