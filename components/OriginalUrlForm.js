@@ -15,6 +15,7 @@ async function createShortUrl(originalUrl) {
     const res = await fetch('/api/', {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       credentials: 'include',
