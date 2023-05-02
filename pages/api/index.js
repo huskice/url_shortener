@@ -33,8 +33,6 @@ export default async function handler(req, res) {
 
     const session = await getSession(req, res)
 
-    res.setHeader('Set-Cookie', req.headers.cookie)
-
     const forwarded = req.headers['x-forwarded-for']
     const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress
 
@@ -53,6 +51,8 @@ export default async function handler(req, res) {
 
     const referer = req.headers.referer || 'undefined'
 
+    res.setHeader('Set-Cookie', req.headers.cookie)
+    console.log(req.headers.cookie)
     try {
       if (error) {
         res.status(400).json({ error: 'Field must be filled out' })
