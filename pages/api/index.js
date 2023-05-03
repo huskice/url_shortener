@@ -78,7 +78,7 @@ export default async function handler(req, res) {
             data: {
               browserName: ua.browser,
               countryName: countryName,
-              cookie: cookie,
+              cookie: req.headers.cookie,
               referer: referer,
               url: {
                 connect: {
