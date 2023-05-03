@@ -32,12 +32,9 @@ export default async function handler(req, res) {
     const { error, value } = apiUrlSchema.validate(req.body)
 
     const session = await getSession(req, res)
-    //session.views = session.views ? session.views + 1 : 1
+    session.views = session.views ? session.views + 1 : 1
 
-    const cookie = req.headers.cookie
-    console.log(cookie)
-
-    res.setHeader('Set-Cookie', cookie)
+    res.setHeader('Set-Cookie', req.headers.cookie, { httpOnly: true })
 
     const forwarded = req.headers['x-forwarded-for']
     const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress
@@ -96,7 +93,7 @@ export default async function handler(req, res) {
         res.status(200).json(response)
       }
     } catch (error) {
-      res.status(500).json({ error: 'Error' })
+      res.status(500).json({ message: 'Error' })
     }
   }
 }

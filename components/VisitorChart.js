@@ -58,10 +58,10 @@ const VisitorChart = () => {
 
           let uniqueV = 0
           let newV = 0
-          const b = arr2.map((o) => o.occurrence)
+          const number = arr2.map((val) => val.occurrence)
          
-          b.forEach((s) => {
-            if (s === 1) {
+          number.forEach((num) => {
+            if (num === 1) {
               newV = newV + 1
               setNewVisitor(newV)
             } else {

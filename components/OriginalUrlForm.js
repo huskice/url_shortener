@@ -18,8 +18,6 @@ async function createShortUrl(originalUrl) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      credentials: 'include',
-      withCredentials: true,
       body: JSON.stringify({ originalUrl }),
     })
 
@@ -28,8 +26,8 @@ async function createShortUrl(originalUrl) {
     }
 
     return res.json()
-  } catch (e) {
-    console.log(e)
+  } catch (error) {
+    console.log(error)
   }
 }
 
