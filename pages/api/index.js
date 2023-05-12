@@ -4,55 +4,23 @@ import generateUrl from '../../generateUrl'
 
 import { apiUrlSchema } from '@/validations/ApiUrlValidation'
 
-import { parse } from 'next-useragent'
-
-import nextSession from 'next-session'
-
-import { promisifyStore, expressSession } from 'next-session/lib/compat'
-
-const pgSession = require('connect-pg-simple')(expressSession)
-const connectStore = new pgSession({
-  conObject: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  },
-  createTableIfMissing: true,
-})
-
-const getSession = nextSession({
-  store: promisifyStore(connectStore),
-  saveUninitialized: true,
-  resave: true,
-})
-
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.status(404).json({ message: 'Method not allowed!' })
-  } else {
+  if (req.method === 'GET') {
+    const response = await prisma.url.findMany({
+      include: {
+        _count: {
+          select: {
+            urlAnalytic: true,
+          },
+        },
+      },
+    })
+
+    res.status(200).json(response)
+  } else if (req.method === 'POST') {
     const { error, value } = apiUrlSchema.validate(req.body)
 
-    const session = await getSession(req, res)
-    session.views = session.views ? session.views + 1 : 1
-
-    res.setHeader('Set-Cookie', req.headers.cookie, { httpOnly: true })
-
-    const forwarded = req.headers['x-forwarded-for']
-    const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress
-
-    const response = await fetch(`http://ipwho.is/${ip}`)
-    const result = await response.json()
-    const countryName = await result.country
-
-    const { code } = generateUrl()
-
-    const uaString = req.headers['user-agent']
-
-    let ua
-    if (uaString) {
-      ua = parse(uaString)
-    }
-
-    const referer = req.headers.referer || 'undefined'
+    const { code, shortUrl } = generateUrl()
 
     try {
       if (error) {
@@ -70,21 +38,8 @@ export default async function handler(req, res) {
           const newUrl = await val.url.create({
             data: {
               originalUrl: value.originalUrl,
-              code: code,
-            },
-          })
-
-          await val.urlAnalytic.create({
-            data: {
-              browserName: ua.browser,
-              countryName: countryName,
-              cookie: req.headers.cookie,
-              referer: referer,
-              url: {
-                connect: {
-                  id: newUrl.id,
-                },
-              },
+              code,
+              shortUrl,
             },
           })
 
@@ -93,13 +48,9 @@ export default async function handler(req, res) {
         res.status(200).json(response)
       }
     } catch (error) {
-      res.status(500).json({ message: 'Error' })
+      res.status(500).json({ message: 'Error!' })
     }
+  } else {
+    res.status(405).json({ message: 'Method not allowed!' })
   }
-}
-
-export const config = {
-  api: {
-    externalResolver: true,
-  },
 }

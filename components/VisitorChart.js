@@ -18,37 +18,33 @@ export const options = {
   },
 }
 
-const VisitorChart = () => {
-  const [uniqueVisitors, setUniqueVisitors] = useState()
-  const [newVisitor, setNewVisitor] = useState()
+const VisitorChart = ({ code }) => {
+  const [uniqueVisitors, setUniqueVisitors] = useState([])
+  const [newVisitor, setNewVisitor] = useState([])
 
   useEffect(() => {
-    const fetchUniqueVisitors = async () => {
+    const fetchVisitors = async () => {
       try {
         const response = await fetch('/api/urlAnalytic')
         const result = await response.json()
-        
-        function findOcc(result, key) {
+
+        const res = await result.filter((value) => value.urlCode === code)
+
+        function findOcc(res, key) {
           let arr2 = []
 
-          result.forEach((x) => {
-            // Checking if there is any object in arr2
-            // which contains the key value
+          res.forEach((x) => {
             if (
               arr2.some((val) => {
                 return val[key] == x[key]
               })
             ) {
-              // If yes! then increase the occurrence by 1
               arr2.forEach((k) => {
                 if (k[key] === x[key]) {
                   k['occurrence']++
                 }
               })
             } else {
-              // If not! Then create a new object initialize
-              // it with the present iteration key's value and
-              // set the occurrence to 1
               let a = {}
               a[key] = x[key]
               a['occurrence'] = 1
@@ -58,8 +54,9 @@ const VisitorChart = () => {
 
           let uniqueV = 0
           let newV = 0
+
           const number = arr2.map((val) => val.occurrence)
-         
+
           number.forEach((num) => {
             if (num === 1) {
               newV = newV + 1
@@ -71,10 +68,12 @@ const VisitorChart = () => {
           })
         }
 
-        findOcc(result, 'cookie')
-      } catch (error) {}
+        findOcc(res, 'cookie')
+      } catch (error) {
+        console.log(error)
+      }
     }
-    fetchUniqueVisitors()
+    fetchVisitors()
   }, [])
 
   const data = {
@@ -89,11 +88,19 @@ const VisitorChart = () => {
     ],
   }
 
-  return (
-    <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
-      <Pie data={data} options={options} />
-    </div>
-  )
+  let visitorsData
+  
+  if (uniqueVisitors.length === 0 && newVisitor.length === 0) {
+    return null
+  } else {
+    visitorsData = (
+      <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
+        <Pie data={data} options={options} />
+      </div>
+    )
+  }
+
+  return <>{visitorsData}</>
 }
 
 export default VisitorChart

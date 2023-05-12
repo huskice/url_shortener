@@ -10,16 +10,17 @@ datasource db {
 model Url {
   id          Int           @id @default(autoincrement())
   originalUrl String
+  shortUrl    String
   code        String        @unique
   urlAnalytic UrlAnalytic[]
 }
 
 model UrlAnalytic {
-  id      Int @id @default(autoincrement())
-  url     Url @relation(fields: [url_id], references: [id])
-  url_id  Int @unique
+  id          Int     @id @default(autoincrement())
+  urlCode     String
   browserName String?
   countryName String?
-  cookie String?
-  referer String?
+  cookie      String?
+  referer     String?
+  url         Url     @relation(fields: [urlCode], references: [code])
 }

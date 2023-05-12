@@ -18,7 +18,7 @@ export const options = {
   },
 }
 
-const BrowserNameChart = () => {
+const BrowserNameChart = ({ code }) => {
   const [browserNames, setBrowserNames] = useState([])
 
   useEffect(() => {
@@ -27,27 +27,23 @@ const BrowserNameChart = () => {
         const response = await fetch('/api/urlAnalytic')
         const result = await response.json()
 
-        function findOcc(result, key) {
+        const res = await result.filter((value) => value.urlCode === code)
+
+        function findOcc(res, key) {
           let arr2 = []
 
-          result.forEach((x) => {
-            // Checking if there is any object in arr2
-            // which contains the key value
+          res.forEach((x) => {
             if (
               arr2.some((val) => {
                 return val[key] == x[key]
               })
             ) {
-              // If yes! then increase the occurrence by 1
               arr2.forEach((k) => {
                 if (k[key] === x[key]) {
                   k['occurrence']++
                 }
               })
             } else {
-              // If not! Then create a new object initialize
-              // it with the present iteration key's value and
-              // set the occurrence to 1
               let a = {}
               a[key] = x[key]
               a['occurrence'] = 1
@@ -56,7 +52,7 @@ const BrowserNameChart = () => {
           })
           return setBrowserNames(arr2)
         }
-        findOcc(result, 'browserName')
+        findOcc(res, 'browserName')
       } catch (error) {
         console.log(error)
       }
@@ -65,10 +61,10 @@ const BrowserNameChart = () => {
   }, [])
 
   const data = {
-    labels: browserNames.map((v) => v.browserName),
+    labels: browserNames.map((x) => x.browserName),
     datasets: [
       {
-        data: browserNames.map((v) => v.occurrence),
+        data: browserNames.map((x) => x.occurrence),
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -90,11 +86,18 @@ const BrowserNameChart = () => {
     ],
   }
 
-  return (
+  let browserData
+
+  if (browserNames.length === 0) {
+    return null
+  } else {
+    browserData = (
       <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
         <Pie data={data} options={options} />
       </div>
-    
-  )
+    )
+  }
+
+  return <>{browserData}</>
 }
 export default BrowserNameChart
