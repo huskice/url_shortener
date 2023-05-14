@@ -58,7 +58,7 @@ const BrowserNameChart = ({ code }) => {
       }
     }
     fetchBrowserName()
-  }, [])
+  }, [code])
 
   const data = {
     labels: browserNames.map((x) => x.browserName),

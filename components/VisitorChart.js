@@ -74,7 +74,7 @@ const VisitorChart = ({ code }) => {
       }
     }
     fetchVisitors()
-  }, [])
+  }, [code])
 
   const data = {
     labels: ['New Visitor', 'Unique Visitor'],

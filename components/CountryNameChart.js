@@ -57,7 +57,7 @@ const CountryNameChart = ({ code }) => {
       }
     }
     fetchCountryNames()
-  }, [])
+  }, [code])
 
   const data = {
     labels: countryNames.map((x) => x.countryName),

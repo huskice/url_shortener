@@ -17,7 +17,7 @@ const TotalNumOfVisits = ({ code }) => {
       }
     }
     fetchData()
-  }, [])
+  }, [code])
 
   const visits = data[0]?._count['urlAnalytic']
 

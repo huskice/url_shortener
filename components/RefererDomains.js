@@ -40,7 +40,7 @@ const RefererDomains = ({ code }) => {
       }
     }
     fetchReferers()
-  }, [])
+  }, [code])
 
   let refererData
   
