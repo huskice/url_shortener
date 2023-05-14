@@ -6,17 +6,21 @@ import { apiUrlSchema } from '@/validations/ApiUrlValidation'
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const response = await prisma.url.findMany({
-      include: {
-        _count: {
-          select: {
-            urlAnalytic: true,
+    try {
+      const response = await prisma.url.findMany({
+        include: {
+          _count: {
+            select: {
+              urlAnalytic: true,
+            },
           },
         },
-      },
-    })
+      })
 
-    res.status(200).json(response)
+      res.status(200).json(response)
+    } catch (error) {
+      res.status(500).json({ message: 'Something went wrong!' })
+    }
   } else if (req.method === 'POST') {
     const { error, value } = apiUrlSchema.validate(req.body)
 
