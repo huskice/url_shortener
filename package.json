@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.11",
-    "@next/font": "13.1.6",
     "@prisma/client": "^4.14.0",
     "autoprefixer": "^9.8.8",
     "chart.js": "^4.2.1",
