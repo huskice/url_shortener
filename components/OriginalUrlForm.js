@@ -12,7 +12,7 @@ import LoadingSpinner from './LoadingSpinner'
 
 async function createShortUrl(originalUrl) {
   try {
-    const res = await fetch('/api/', {
+    const res = await fetch('/api', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
