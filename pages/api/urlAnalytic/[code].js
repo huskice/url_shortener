@@ -23,7 +23,7 @@ const getSession = nextSession({
   resave: true,
 })
 
-export default async function (req, res) {
+export default async function urlAnalyticHandler (req, res) {
   if (req.method === 'GET') {
     const { code } = req.query
    

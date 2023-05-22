@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 
-export default async function (req, res) {
+export default async function getUrlHandler (req, res) {
   if (req.method == 'GET') {
     const { code } = req.query
     try {

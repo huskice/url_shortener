@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 
-export default async function (req, res) {
+export default async function getUrlAnalyticHandler (req, res) {
   if (req.method === 'GET') {
     try {
       const response = await prisma.urlAnalytic.findMany()
