@@ -29,7 +29,7 @@ const Analytics = () => {
       }
     }
     fetchAnalytics()
-  }, [])
+  }, [code])
 
   if (data === 'undefined') return null
 
