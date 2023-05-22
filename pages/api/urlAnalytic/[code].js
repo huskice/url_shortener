@@ -23,14 +23,14 @@ const getSession = nextSession({
   resave: true,
 })
 
-export default async function urlAnalyticHandler (req, res) {
+export default async function (req, res) {
   if (req.method === 'GET') {
     const { code } = req.query
-   
+
     const session = await getSession(req, res)
     session.views = session.views ? session.views + 1 : 1
 
-    res.setHeader('Set-Cookie', req.headers.cookie, { httpOnly: true })
+    res.setHeader('Set-Cookie', req.headers.cookie)
 
     const forwarded = req.headers['x-forwarded-for']
     const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress
