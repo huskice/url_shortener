@@ -88,19 +88,15 @@ const VisitorChart = ({ code }) => {
     ],
   }
 
-  let visitorsData
-  
   if (uniqueVisitors.length === 0 && newVisitor.length === 0) {
     return null
-  } else {
-    visitorsData = (
-      <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
-        <Pie data={data} options={options} />
-      </div>
-    )
   }
 
-  return <>{visitorsData}</>
+  return (
+    <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
+      <Pie data={data} options={options} />
+    </div>
+  )
 }
 
 export default VisitorChart

@@ -15,7 +15,7 @@ async function createShortUrl(originalUrl) {
     const res = await fetch('/api', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ originalUrl }),
@@ -45,7 +45,6 @@ const OriginalUrlForm = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit = async (data, e) => {
-    e.preventDefault()
     setIsLoading(true)
 
     const newUrl = await createShortUrl(data.originalUrl)
@@ -65,6 +64,7 @@ const OriginalUrlForm = () => {
           />
           <button
             type="submit"
+            disabled={isLoading}
             className="mx-3 w-24 lg:text-base  md:text-sm sm:text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Submit

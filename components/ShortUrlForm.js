@@ -44,7 +44,7 @@ const ShortUrlForm = () => {
           </button>
         </form>
       </div>
-      <AlertMessage visible={showAlert} onClose={handleClose} />
+      {showAlert ? <AlertMessage onClose={handleClose} /> : null}
     </>
   )
 }

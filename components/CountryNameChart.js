@@ -87,19 +87,15 @@ const CountryNameChart = ({ code }) => {
     ],
   }
 
-  let countryNameData
-  
   if (countryNames.length === 0) {
     return null
-  } else {
-    countryNameData = (
-      <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
-        <Bar options={options} data={data} />
-      </div>
-    )
   }
 
-  return <>{countryNameData}</>
+  return (
+    <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
+      <Bar options={options} data={data} />
+    </div>
+  )
 }
 
 export default CountryNameChart

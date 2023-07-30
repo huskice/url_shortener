@@ -42,26 +42,22 @@ const RefererDomains = ({ code }) => {
     fetchReferers()
   }, [code])
 
-  let refererData
-  
   if (referers.length === 0) {
     return null
-  } else {
-    refererData = (
-      <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
-        <h6 className="font-medium text-gray-600 text-sm text-center">Referer Doimans</h6>
-        <ul className="list-disc pt-3 font-thin pl-10" role="list">
-          {referers.map((value, index) => (
-            <li className="text-xs text-gray-800" key={index}>
-              {value.referer}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
   }
 
-  return <>{refererData}</>
+  return (
+    <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
+      <h6 className="font-medium text-gray-600 text-sm text-center">Referer Doimans</h6>
+      <ul className="list-disc pt-3 font-thin pl-10" role="list">
+        {referers.map((value, index) => (
+          <li className="text-xs text-gray-800" key={index}>
+            {value.referer}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export default RefererDomains

@@ -1,6 +1,4 @@
-const AlertMessage = ({ visible, onClose }) => {
-  if (!visible) return null
-
+const AlertMessage = ({ onClose }) => {
   return (
     <div
       className="fixed inset-0 bg-opacity-25 backdrop-blur-sm flex h-12 mt-10 bg-green-200 rounded-md p-3 lg:w-2/5 md:w-1/2 sm:w-96 mx-auto"

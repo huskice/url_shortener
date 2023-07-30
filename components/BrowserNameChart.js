@@ -86,18 +86,14 @@ const BrowserNameChart = ({ code }) => {
     ],
   }
 
-  let browserData
-
   if (browserNames.length === 0) {
     return null
-  } else {
-    browserData = (
-      <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
-        <Pie data={data} options={options} />
-      </div>
-    )
   }
 
-  return <>{browserData}</>
+  return (
+    <div className="md:w-80 md:h-80 sm:w-9/12 sm:h-9/12 m-auto px-3">
+      <Pie data={data} options={options} />
+    </div>
+  )
 }
 export default BrowserNameChart
